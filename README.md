@@ -5,7 +5,7 @@
 - client subscribes to gql endpoint
 - server subscribe doesn't yield anything
 - client unsubscribes after 5 seconds
-- server subscription generated never exists
+- server subscription generated never exists (check console for tick logs)
 
 If you uncomment `// yield { greetings: "hi "+(count++) };` in `schema.js` and
 restart, the server will correctly stop ticking after 5 seconds.
