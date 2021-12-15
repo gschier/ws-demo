@@ -4,19 +4,18 @@
   "scripts": {
     "start": "concurrently -n backend,frontend \"npm run backend\" \"npm run frontend\"",
     "backend": "node server",
-    "frontend": "parcel build client/index.js --dist-dir client/dist && static client"
+    "frontend": "parcel build client/index.js --dist-dir client/dist && static -p 8111 client"
   },
   "dependencies": {
-    "apollo-server-koa": "^2.19.2",
+    "apollo-server-koa": "^2.19.0",
     "graphql": "^15.4.0",
     "graphql-ws": "^5.5.5",
-    "koa": "^2.13.4",
+    "koa": "^2.13.0",
     "ws": "^8.3.0"
   },
   "devDependencies": {
     "concurrently": "^6.4.0",
     "node-static": "^0.7.11",
-    "parcel": "^2.0.1",
-    "ts-node-dev": "^1.1.8"
+    "parcel": "^2.0.1"
   }
 }
