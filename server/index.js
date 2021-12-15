@@ -1,14 +1,31 @@
-const { WebSocketServer } = require('ws'); // yarn add ws
-// import ws from 'ws'; yarn add ws@7
-// const WebSocketServer = ws.Server;
-const { useServer } = require( 'graphql-ws/lib/use/ws');
+const { Server } = require('ws');
+const { ApolloServer } = require('apollo-server-koa');
+const { useServer } = require('graphql-ws/lib/use/ws');
 const { schema } = require('./schema');
+const Koa = require('koa');
+const http = require('http');
 
-const index = new WebSocketServer({
-  port: 4000,
+const app = new Koa();
+app.proxy = true;
+
+const server = new ApolloServer({ schema });
+
+const httpServer = http.createServer(app.callback());
+
+const wsServer = new Server({
+  server: httpServer,
   path: '/graphql',
 });
 
-useServer({ schema }, index);
+useServer({
+  schema,
+  onComplete: ctx => {
+    console.log('COMPLETE');
+  },
+}, wsServer);
 
-console.log('Listening to port 4000');
+server.applyMiddleware({ app });
+
+const appServer = httpServer.listen(4000, () => {
+  console.log('Listening to port', appServer.address());
+});
